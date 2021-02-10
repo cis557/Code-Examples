@@ -1,0 +1,13 @@
+body {
+    font-size: 16px;
+  } 
+  p {
+    font-weight: bold;
+  } 
+  span {
+    display: none;
+    color: red;
+  } 
+  img {
+    float: right;
+  } 
