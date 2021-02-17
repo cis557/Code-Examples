@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Events Web Page</title>
+    <style>
+        div { 
+            margin: 30px;
+            padding: 5px;
+            border: thin black solid;
+}
+.myclass:hover {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+#div1:hover {
+background-color: red;
+transition: background-color 1000ms linear;
+}
+    </style>
+</head>
+<body>
+    <header>
+	<h1>Let's play with Events</h1>
+        </header>
+	    
+   <div id="div0" class="myclass">div0
+    <div id="div1" class="yourclass">div1
+      <div id="div2" class="myclass">div2
+        <div id="div3" class="yourclass">div3</div>
+      </div>
+    </div>
+  </div>
+   
+</body>
+<script type="text/javascript" src="events.js"></script>
+</html>
