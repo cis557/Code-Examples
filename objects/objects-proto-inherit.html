@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+	<title>Events Web Page</title>
+</head>
+<body>
+    <header>
+	<h1>Let's play with Object prototype</h1>
+        </header>
+	
+	<button id="btn1" onclick="display()">Click Me!</button>
+    <br/>
+
+   
+        
+    <script>
+    
+
+    function Student (name, gpa){
+      this.sname = name;
+      this.gpa = gpa;
+     }
+    //add properties to Students
+    Student.prototype.f_print = function () { return (this.sname + " : " + this.gpa);}
+    
+    function UGStudent (name, gpa, major){
+      //call Student constructor
+      Student.call(this, name, gpa);
+      this.major = major;
+     }
+    
+    UGStudent.prototype = Student;
+    //UGStudent overrides f_print    
+    UGStudent.prototype.f_print = function () { return (Student.prototype.f_print.call(this) + " : " + this.major);}    
+    
+    var x = new Student("Jamal", 3.5);
+    var y = new UGStudent("Lisa", 3.7, "CIS"); 
+       
+   
+    function display(){
+        alert(x.f_print()+ " / " + y.f_print());        
+
+    }
+
+    </script>   
+</body>
+</html>
