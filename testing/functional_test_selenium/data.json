@@ -1,0 +1,5 @@
+[ {"name": "Philadelphia","temp" : 78.4},
+  {"name": "Miami", "temp": 92.5},
+  {"name": "Douala", "temp": 88.7},
+  {"name": "London", "temp": 67.1}
+]
