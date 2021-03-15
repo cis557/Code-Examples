@@ -54,5 +54,10 @@ describe('Test /student endpoint', () => {
         
     
     });
+    
+    test('update student', () => {
+        
+    
+    });
 });
 
