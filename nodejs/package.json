@@ -1,0 +1,20 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS examples",
+  "main": "event_example.js",
+  "scripts": {
+    "test": "yarn test"
+  },
+  "keywords": [
+    "node",
+    "events"
+  ],
+  "author": "Eric F",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
