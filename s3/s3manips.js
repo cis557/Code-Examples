@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
-// Enter copied or downloaded access ID and secret key here
+// Enter S3 ID and secret key here
 const ID = 'AKIAYBMP5SVIGJPJ6V5R';
 const SECRET = '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';
 
-// The name of the bucket that you have created
+// The name of the bucket that we will use
 const BUCKET_NAME = 'cis557sp21';
 
 const s3 = new AWS.S3({
