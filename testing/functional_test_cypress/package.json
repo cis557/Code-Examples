@@ -1,0 +1,15 @@
+{
+  "name": "functional_test_cypress",
+  "version": "1.0.0",
+  "description": "Functional tests with selenium",
+  "main": "index.html",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^8.6.0"
+  }
+}
