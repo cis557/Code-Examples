@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.23.0",
+    "jest": "^27.3.1"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.20.0"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  }
+}
