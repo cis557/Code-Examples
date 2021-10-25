@@ -10,13 +10,18 @@ function WeatherApp() {
     // Bookmarks and shared links
     // Use the URL to restore the app state
     const url = window.location.href;
+    let urlCity = '';
     if (url.split('/').length === 4) {
-      setCity(url.split('/').pop());
+      urlCity = url.split('/').pop();
     }
-    if (city !== '') {
-      getWeather(city).then((response) => {
+    let location = city; 
+    if (urlCity !== '' && city === '') {
+      location = urlCity;
+    }
+    if (location !== '') {
+      getWeather(location).then((response) => {
         const pCity = document.getElementById('city');
-        pCity.innerHTML = `City: ${city}`;
+        pCity.innerHTML = `City: ${location}`;
         const pDesc = document.getElementById('desc');
         pDesc.innerHTML = `Weather: ${response.weather[0].description}`;
         const pTemp = document.getElementById('temp');
