@@ -1,0 +1,23 @@
+{
+  "name": "mondodb_test",
+  "version": "1.0.0",
+  "description": "learning mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "mongodb",
+    "nosql"
+  ],
+  "author": "eric fouh",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^4.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2"
+  }
+}
