@@ -47,7 +47,7 @@ const getPlayers = async (db) => {
   try {
     const query = 'SELECT * FROM game_test.players';
     const [rows] = await db.execute(query);
-    return rows[0];
+    return rows;
   } catch (err) {
     console.log(`Error: ${err.message}`);
     throw new Error('Error executing the query');
