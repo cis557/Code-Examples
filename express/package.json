@@ -1,16 +1,17 @@
 {
-  "name": "first_api",
+  "name": "first_express_server",
   "version": "1.0.0",
-  "description": "first rest API",
-  "main": "index.js",
+  "description": "first express server",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "jest --coverage --forceExit"
   },
   "keywords": [
     "rest",
-    "sqlite",
-    "students"
+    "MySQL",
+    "express",
+    "Supertest"
   ],
   "author": "Eric Fouh",
   "license": "ISC",
@@ -18,13 +19,14 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mysql2": "*",
     "sqlite3": "^4.2.0",
     "supertest": "^6.1.3"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "jest": "^26.6.3"
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "jest": "^27.3.1"
   }
 }

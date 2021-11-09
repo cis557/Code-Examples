@@ -1,138 +1,108 @@
-// Create express app
+// Import express
 const express = require('express');
 
 // enable cross-origin resource sharing (cors)
 const cors = require('cors');
 
+// Create express app
 const webapp = express();
 
 webapp.use(cors());
 
-const bodyParser = require('body-parser');
-
-// Import database
-const db = require('./database.js');
+// Import database operations
+const lib = require('./dbOperationsMySQL');
 
 // Server port
 const port = 8080;
 
-webapp.use(bodyParser.urlencoded({
+webapp.use(express.urlencoded({
   extended: true,
 }));
 
-// Start server
-webapp.listen(port, () => {
+// declare DB object
+
+let db;
+
+// Start server and connect to the DB
+webapp.listen(port, async () => {
+  db = await lib.connect();
   console.log(`Server running on port:${port}`);
 });
 
 // Root endpoint
-webapp.get('/', (req, res) => {
-  res.json({ message: 'Welcome to our first REST API implementation' });
+webapp.get('/', (_req, res) => {
+  res.json({ message: 'Welcome to our web app' });
 });
 
 // Other API endpoints
-webapp.get('/students', (_req, res) => {
-  console.log('READ all students');
-  const sql = 'select * from student ORDER BY major ASC';
-  const params = [];
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(404).json({ error: err.message });
-      return;
-    }
-    res.json({
-      message: 'success',
-      data: rows,
-    });
-  });
+webapp.get('/players', async (_req, res) => {
+  console.log('READ all players');
+  try {
+    const results = await lib.getPlayers(db);
+    res.status(200).json({ data: results });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
-webapp.get('/student/:id', (req, res) => {
-  console.log('READ a student by id');
-  const sql = 'select * from student where id = ?';
-  const params = [req.params.id];
-  db.get(sql, params, (err, row) => {
-    if (err) {
-      res.status(404).json({ error: err.message });
+webapp.get('/player/:id', async (req, res) => {
+  console.log('READ a player by id');
+  try {
+    if (req.params.id === undefined) {
+      res.status(404).json({ error: 'id is missing' });
       return;
     }
-    res.json({
-      message: 'success',
-      data: row,
-    });
-  });
+    const result = await lib.getPlayer(db, req.params.id);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad user id' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
-webapp.post('/student/', (req, res) => {
-  console.log('CREATE a student');
-  if (!req.body.name || !req.body.email || !req.body.major) {
-    res.status(400).json({ error: 'missing name or email or major' });
+webapp.post('/player/', async (req, res) => {
+  console.log('CREATE a player');
+  if (!req.body.player || !req.body.points) {
+    res.status(404).json({ error: 'missing name or points' });
     return;
   }
-  // create student object
-  const newStudent = {
-    name: req.body.name,
-    email: req.body.email,
-    major: req.body.major,
+  // create new player object
+  const newPlayer = {
+    player: req.body.player,
+    points: req.body.points,
   };
-  // insert newStudent
-  const sql = 'INSERT INTO student (name, email, major) VALUES (?,?,?)';
-  const values = [newStudent.name, newStudent.email, newStudent.major];
-  db.run(sql, values, function (err, _result) {
-    if (err) {
-      res.status(404).json({ error: err.message });
+  try {
+    const result = await lib.addPlayer(db, newPlayer);
+    console.log(`id: ${JSON.stringify(result)}`);
+    // add id to new player and return it
+    res.status(201).json({
+      student: { id: result, ...newPlayer },
+    });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.delete('/player/:player', async (req, res) => {
+  if (req.params.player === undefined) {
+    res.status(404).json({ error: 'name is missing' });
+    return;
+  }
+  console.log('DELETE a player');
+  try {
+    const result = await lib.deletePlayer(db, req.params.player);
+    console.log(`result-->${result}`);
+    if (Number(result) === 0) {
+      res.status(404).json({ error: 'player not in the system' });
       return;
     }
-
-    res.status(201).json({
-      message: 'success',
-      student: newStudent,
-      id: this.lastID,
-    });
-  });
-});
-
-webapp.put('/student/:id', (req, res) => {
-  console.log('UPDATE a student');
-  const updatedStudent = {
-    name: req.body.name,
-    email: req.body.email,
-    major: req.body.major,
-  };
-  db.run(
-    `UPDATE student set 
-           name = ?, 
-           email = ?, 
-           major = ? 
-           WHERE id = ?`,
-    [updatedStudent.name, updatedStudent.email, updatedStudent.major, req.params.id],
-    function (err) {
-      if (err) {
-        res.status(400).json({ error: res.message });
-        return;
-      }
-      res.json({
-        message: 'success',
-        data: updatedStudent,
-        changes: this.changes,
-      });
-    },
-  );
-});
-
-webapp.delete('/student/:id', (req, res) => {
-  console.log('DELETE a student');
-  db.run(
-    'DELETE FROM student WHERE id = ?',
-    req.params.id,
-    function (err) {
-      if (err) {
-        res.status(400).json({ error: res.message });
-        return;
-      }
-      res.json({ message: 'deleted', changes: this.changes });
-    },
-  );
+    res.status(200).json({ message: `Deleted ${result} player(s) with name ${req.params.player}` });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
 // Default response for any other request
