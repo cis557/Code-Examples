@@ -1,11 +1,8 @@
 // import events
 const EventEmitter = require('events');
 
-// create the emitter class
-class MyEmitter extends EventEmitter {}
-
-// instantiate a new emitter object
-const myEmitter = new MyEmitter();
+// instantiate a new emitter object
+const myEmitter = new EventEmitter.EventEmitter();
 
 // add listener to the event
 myEmitter.on('myevent', () => {
