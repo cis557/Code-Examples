@@ -1,0 +1,33 @@
+{
+  "name": "backend_testing",
+  "version": "1.0.0",
+  "description": "backend testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "rest",
+    "sql",
+    "API testing"
+  ],
+  "author": "Eric Fouh",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jest": "^27.3.1",
+    "knex": "^0.95.14",
+    "md5": "^2.3.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "superset": "^2.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "supertest": "^6.1.6"
+  }
+}
