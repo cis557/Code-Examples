@@ -1,100 +1,109 @@
-// Create express app
+// import express
 const express = require('express');
 
+// enable cross-origin resource sharing (cors)
+const cors = require('cors');
+
+// Create express app
 const webapp = express();
 
-// Help with parsing body of HTTP requests
-const bodyParser = require('body-parser');
+webapp.use(cors());
 
-// Import MongoDB module
-const { MongoClient } = require('mongodb');
+// Import database operations
+const lib = require('./dbOperationsMongoDB');
 
-// Import ObjectID constructor
-const ObjectId = require('mongodb').ObjectID;
 
-// URL of db on the cloud
-const url =   'mongodb+srv://cis557:cis557_fa20@cluster0.lp2ui.mongodb.net/hw5_game?retryWrites=true&w=majority';
-
-// Connect to our db on the cloud
-const connect = async () => {
-  try {
-    const tmp = (await MongoClient.connect(url, 
-      { useNewUrlParser: true, useUnifiedTopology: true })).db();
-    // Connected to db
-    console.log(`Connected to database: ${tmp.databaseName}`);
-    return tmp;
-  } catch (err) {
-    console.error(err.message);
-    throw err;
-  }
-};
 
 // Server port
 const port = 8080;
 
-webapp.use(bodyParser.urlencoded({
+webapp.use(express.urlencoded({
   extended: true,
 }));
-// Start server
+
+// declare DB connection handle
 let db;
+const profiles = require('./profiles');
+
+// Start server and connect to the DB
 webapp.listen(port, async () => {
-  db = await connect();
-  console.log(`--Server running on port:${port}`);
+  db = await lib.connect(profiles.url1);
+  console.log(`Server running on port:${port}`);
 });
 
 // Root endpoint
-webapp.get('/', (req, res) => {
-  res.json({ message: 'Welcome to HW5 Backend' });
+webapp.get('/', (_req, res) => {
+  res.json({ message: 'Welcome to our web app' });
 });
 
 // Other API endpoints
-webapp.get('/players', (req, res) => {
+webapp.get('/players', async (_req, res) => {
   console.log('READ all players');
-  db.collection('players').find({}, (err, result) => {
-    if (err) {
-      // error querying the database
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    result.toArray((err1, docs) => {
-      if (err1) {
-        // error converting result to array
-        res.status(400).json({ error: err1.message });
-        return;
-      }
-      res.json({
-        message: 'success',
-        data: docs,
-      });
-    });
-  });
+  try {
+    const results = await lib.getPlayers(db);
+    res.status(200).json({ data: results });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
-
-webapp.post('/player/', (req, res) => {
-  console.log('CREATE a player');
-
-  if (!req.body.username) {
-    res.status(400).json({ error: 'missing username' });
-    return;
-  }
-
-  // create player object
-  const newPlayer = {
-    player: req.body.username,
-    points: 0,
-  };
-  // insert newPlayer
-  db.collection('players').insertOne(newPlayer, (err) => {
-    if (err) {
-      res.status(400).json({ error: err.message });
+webapp.get('/player/:id', async (req, res) => {
+  console.log('READ a player by id');
+  try {
+    if (req.params.id === undefined) {
+      res.status(404).json({ error: 'id is missing' });
       return;
     }
-    res.json({
-      message: 'success',
-      player: newPlayer,
+    const result = await lib.getPlayer(db, req.params.id);
+    if (result === undefined) {
+      res.status(404).json({ error: 'bad user id' });
+      return;
+    }
+    res.status(200).json({ data: result });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.post('/player/', async (req, res) => {
+  console.log('CREATE a player');
+  if (!req.body.player || !req.body.points) {
+    res.status(404).json({ error: 'missing name or points' });
+    return;
+  }
+  // create new player object
+  const newPlayer = {
+    player: req.body.player,
+    points: req.body.points,
+  };
+  try {
+    const result = await lib.addPlayer(db, newPlayer);
+    console.log(`id: ${JSON.stringify(result)}`);
+    // add id to new player and return it
+    res.status(201).json({
+      player: { id: result, ...newPlayer },
     });
-  });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
+webapp.delete('/player/:player', async (req, res) => {
+  if (req.params.player === undefined) {
+    res.status(404).json({ error: 'name is missing' });
+    return;
+  }
+  console.log('DELETE a player');
+  try {
+    const result = await lib.deletePlayer(db, req.params.player);
+    if (Number(result) === 0) {
+      res.status(404).json({ error: 'player not in the system' });
+      return;
+    }
+    res.status(200).json({ message: `Deleted ${result} player(s) with name ${req.params.player}` });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
 });
 
 // Default response for any other request

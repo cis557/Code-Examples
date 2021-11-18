@@ -1,8 +1,8 @@
 {
-  "name": "hw5_backend",
+  "name": "backend_testing",
   "version": "1.0.0",
-  "description": "Guess the celebrity app backend",
-  "main": "index.js",
+  "description": "backend testing",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "jest --coverage --forceExit"
@@ -10,23 +10,22 @@
   "keywords": [
     "rest",
     "mongodb",
-    "students"
+    "API testing"
   ],
   "author": "Eric Fouh",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jest": "^26.6.3",
-    "knex": "^0.21.12",
-    "md5": "^2.2.1",
-    "mongodb": "^3.6.3",
-    "superset": "^1.0.1"
+    "jest": "^27.3.1",
+    "md5": "^2.3.0",
+    "mongodb": "^4.2.0",
+    "superset": "^2.0.1"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "supertest": "^6.0.1"
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "supertest": "^6.1.6"
   }
 }

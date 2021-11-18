@@ -1,24 +1,8 @@
 const request = require('supertest');
-// Import MongoDB module
-const { MongoClient } = require('mongodb');
+const profiles = require('./profiles');
+// Import database operations
+const dbLib = require('./dbOperationsMongoDB');
 
-
-// URL of db on the cloud
-const url = 'mongodb+srv://cis557:cis557_fa20@cluster0.lp2ui.mongodb.net/hw5_game?retryWrites=true&w=majority';
-
-// Connect to our db on the cloud
-const connect = async () => {
-  try {
-    const tmp = (await MongoClient.connect(url,
-      { useNewUrlParser: true, useUnifiedTopology: true })).db();
-    // Connected to db
-    console.log(`Connected to database: ${tmp.databaseName}`);
-    return tmp;
-  } catch (err) {
-    console.error(err.message);
-    throw err;
-  }
-};
 
 const webapp = require('./server');
 
@@ -28,9 +12,7 @@ const webapp = require('./server');
  * "env" key add -"jest": true-
  */
 let db;
-beforeAll(async () => {
-  db = await connect();
-});
+
 
 const clearDatabase = async () => {
   try {
@@ -46,29 +28,45 @@ const clearDatabase = async () => {
   }
 };
 
-afterAll(async () => {
+beforeAll(async () =>{
+  db = await dbLib.connect(profiles.url1);
+});
+
+afterEach(async () => {
   await clearDatabase();
 });
 
 
-describe('Create player endpoint integration test', () => {
-  // expected response
+describe('Create player endpoint API & integration tests', () => {
+  test('status code and response missing points', () => 
+  request(webapp).post('/player/').send('player=testuser')
+  .expect(404) // testing the response status code
+  .then((response) => {
+    expect(JSON.parse(response.text).error).toBe('missing name or points');
+  }));
+  
+  // expected response without the id
   const testPlayer = {
     player: 'testuser',
-    points: 0,
+    points: '5',
   };
-  test('Endpoint status code and response', () => request(webapp).post('/player/').send('username=testuser')
-    .expect(200)
+    test('Endpoint status code and response', () => 
+    request(webapp).post('/player/').send('player=testuser&points=5')
+    .expect(201)
     .then((response) => {
-      // toMatchObject check that a JavaScript object matches
-      // a subset of the properties of an object
+      
       const { player } = JSON.parse(response.text);
-      id = player._id;
+      id = player._id; // we add the id returned to testPlayer
       expect(player).toMatchObject(testPlayer);
     }));
 
-  test('The new player is in the database', async () => {
-    const insertedUser = await db.collection('players').findOne({ player: 'testuser' });
-    expect(insertedUser.player).toEqual('testuser');
-  });
+ 
+  test('The new player is in the database', () => 
+  request(webapp).post('/player/').send('player=testuser&points=5')
+    .expect(201)
+    .then(async () => {
+      const insertedUser = await db.collection('players').findOne({ player: 'testuser' });
+      expect(insertedUser.player).toEqual('testuser');
+    }));
+  
 });
