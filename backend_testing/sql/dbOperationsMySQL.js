@@ -1,13 +1,13 @@
 const mysql = require('mysql2/promise');
 
 // Connect to our db on the cloud
-const connect = async () => {
+const connect = async (credentials) => {
   try {
     const connection = await mysql.createConnection({
-      host: 'database-1.chrcwgi8wrbt.us-east-1.rds.amazonaws.com',
-      user: 'cis557',
-      password: 'cis557+mysql',
-      database: 'game_test',
+      host: credentials.host,
+      user:  credentials.user,
+      password:  credentials.password,
+      database:  credentials.database,
     });
       // Connected to db
     console.log(`Connected to database: ${connection.connection.config.database}`);

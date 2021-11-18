@@ -10,8 +10,9 @@ const knex = require('knex')({
     }
   });
 
-  const dbLib = require('./dbOperationsMySQL'); 
-  let db;
+const dbLib = require('./dbOperationsMySQL'); 
+const profiles = require('./profiles');
+let db;
 
   // cleanup the database after each test
 const clearDatabase = async () => {
@@ -23,13 +24,14 @@ const clearDatabase = async () => {
    * inside .eslintrc.json in the
    * "env" key add - "jest": true -
    */
-
-beforeAll(async () =>{
-    db = await dbLib.connect();
-});
+// setup 
+// beforeAll(async () =>{
+//    db = await dbLib.connect();
+// });
 
 afterEach(async () => {
     await clearDatabase();
+    await db.end();
  });
 
  describe('Database operations tests', () => {
@@ -39,9 +41,18 @@ afterEach(async () => {
       points: 0,
     };
     test('addPlayer inserts a new player', async () => {
+        db = await dbLib.connect(profiles.profile1);
         await dbLib.addPlayer(db, testPlayer);
         const newPlayer = await knex.select('player').from('players').where('player', '=', 'testuser');
         expect(newPlayer[0].player).toBe('testuser');
 
     });
+    test('addPlayer exception', async () => {
+      db = await dbLib.connect(profiles.profile2);
+      try{
+        await dbLib.addPlayer(db, testPlayer)
+      } catch(err){
+        expect(err.message).toBe('Error executing the query');
+      }
   });
+});

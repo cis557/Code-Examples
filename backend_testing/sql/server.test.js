@@ -11,6 +11,7 @@ const knex = require('knex')({
 });
 
 const dbLib = require('./dbOperationsMySQL'); 
+const profiles = require('./profiles');
 let db;
 const request = require('supertest');
 const webapp = require('./server');
@@ -26,27 +27,24 @@ const clearDatabase = async () => {
  * "env" key add - "jest": true -
  */
  beforeAll(async () =>{
-  db = await dbLib.connect();
+  db = await dbLib.connect(profiles.profile1);
 });
 
 afterEach(async () => {
    await clearDatabase();
 });
 
-describe('Create player endpoint API & integration test', () => {
-  // expected response
-  const testPlayer = {
-    player: 'testuser',
-    points: 5,
-  };
+describe('Create player endpoint API & integration tests', () => {
+  
   test('status code and response missing points', () => 
   request(webapp).post('/player/').send('player=testuser')
-  .expect(404)
+  .expect(404) // testing the response status code
   .then((response) => {
     expect(JSON.parse(response.text).error).toBe('missing name or points');
   }));
 
-  test('Endpoint status code and response', () => request(webapp).post('/player/').send('player=testuser&points=5')
+  test('Endpoint status code and response', () => 
+  request(webapp).post('/player/').send('player=testuser&points=5')
     .expect(201)
     .then((response) => {
       expect(JSON.parse(response.text).player).toHaveProperty('player', 'testuser');

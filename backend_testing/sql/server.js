@@ -21,10 +21,11 @@ webapp.use(express.urlencoded({
 
 // declare DB connection handle
 let db;
+const profiles = require('./profiles');
 
 // Start server and connect to the DB
 webapp.listen(port, async () => {
-  db = await lib.connect();
+  db = await lib.connect(profiles.profile1);
   console.log(`Server running on port:${port}`);
 });
 
