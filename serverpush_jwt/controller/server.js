@@ -51,7 +51,7 @@ connection.onmessage = (e) => {
 // Set of users 
 const users = new Set();
 
-webapp.use(bodyParser.urlencoded({
+webapp.use(express.urlencoded({
   extended: true,
 }));
 // Start web server
