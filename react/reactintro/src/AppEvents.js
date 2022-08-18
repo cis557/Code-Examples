@@ -1,27 +1,24 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 
 function AppEvents() {
-    const [currentEvent, setCurrentEvent] = useState('');
+    const [currentEvent, setCurrentEvent] = useState(''); //state
     
     function updateEvent(evt){
-        setCurrentEvent(evt.type);
+        setCurrentEvent(evt.type); // update the state inside event handlers
     }
-    useEffect(() => {
-        const elt = document.getElementById('evt');
-        elt.innerHTML = currentEvent;
-      }, [currentEvent]);
 
     return (
       <div>
         <textarea
           onKeyPress={ updateEvent }
           onCopy={ updateEvent }
+          onClick={ updateEvent }
           cols="15"
           rows="5"
         />
-        <div id="evt"></div>
+        <div id="evt">{currentEvent}</div>
       </div>
     );
 }
