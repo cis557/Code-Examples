@@ -1,0 +1,75 @@
+/* flex container (flexbox)
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Aligning_Items_in_a_Flex_Container */
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+}
+/* class + pseudo-class hover selector */
+.text:hover{
+  cursor: pointer;
+  background-color: red;  
+}
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Tips */
+@keyframes colorchange {
+  0%   {color:orange; left:0px; top:0px;}
+  25%  {color:yellow; left:200px; top:0px;}
+  50%  {color:blue; left:200px; top:200px;}
+  75%  {color:green; left:0px; top:200px;}
+  100% {color:fuchsia; left:0px; top:0px;}
+}
+
+/* descendeant  + pseudo-class hover selector */
+.text:hover .word{
+  font-family: "Lucida Console", "Courier New", monospace;
+  animation: colorchange 1.5s infinite;
+}
+
+.photo:hover{
+  display: table-cell;
+  vertical-align: middle;
+  cursor: wait;
+  border: 10px solid yellow;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  text-align: center;
+  transition: 0.6s;
+}
+/* A conditional group rule that will apply its content if the device meets the criteria of the condition 
+   here we are checking the maximum width of the screen 
+   https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule */
+@media screen and (max-width: 1240px){
+  #x6{
+      display: none;
+  }
+}
+
+
+
+
+@media screen and (max-width: 1040px){
+  #x5{
+      display: none;
+  }
+}
+
+@media screen and (max-width: 840px){
+  #x4{
+      display: none;
+  }
+}
+
+@media screen and (max-width: 640px){
+  #x3{
+      display: none;
+  }
+}
