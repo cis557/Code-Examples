@@ -5,20 +5,24 @@ import { getWeather } from './getData';
 function WeatherApp() {
   const cities = ['Philadelphia', 'Boston', 'Mumbai', 'Dakar', 'Shanghai', 'London'];
   const [city, setCity] = useState('');
+  // will store the city typed in the texbox
+  let inputCity ='';
 
   useEffect(() => {
     // Bookmarks and shared links
     // Use the URL to restore the app state
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/location
     const url = window.location.href;
     let urlCity = '';
     if (url.split('/').length === 4) {
       urlCity = url.split('/').pop();
     }
+    // will store the city from the url or the state
     let location = city; 
     if (urlCity !== '' && city === '') {
       location = urlCity;
     }
-    if (location !== '') {
+    if (location !== '') { // Fetches data from the openweathermap API and updates the DOM
       getWeather(location).then((response) => {
         const pCity = document.getElementById('city');
         pCity.innerHTML = `City: ${location}`;
@@ -30,23 +34,30 @@ function WeatherApp() {
     }
   }, [city]);
 
+  const handleOnChange = (e) => {
+    inputCity = e.target.value;
+  };
+
+  const handleOnClick = (e) => {
+    // update the state to trigger rerendering
+    setCity(inputCity); 
+    // update the url - https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+    window.history.pushState('string', {inputCity}, `/${inputCity}`);
+  };
   const updateCity = (loc) => {
-    if (loc) {
       // update city triggered by a click on a link
-      const clicked = String(loc.target).split('/').pop();
-      setCity(clicked);
-    } else { // homepage + button
-      // Lecture Activity: update city triggered by a button click (search box)
-      // Update the URL in the address bar to be /{the_city}
-    }
+      const clickedCity = String(loc.target).split('/').pop();
+      // clear the input box (just in case)
+      document.getElementById('inpt').value = '';
+      setCity(clickedCity);
   };
 
   return (
     <Router>
       <div>
         <header>
-          <input type="text" id="inpt" />
-          <button type="button" id="btn" onClick={() => updateCity()}>OK</button>
+          <input type="text" id="inpt" onChange={(e) => handleOnChange(e)} />
+          <button type="button" id="btn" onClick={() => handleOnClick()}>OK</button>
         </header>
         <section>
           <h1>Cities</h1>
