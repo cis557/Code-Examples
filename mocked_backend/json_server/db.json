@@ -1,0 +1,52 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Ida Mae",
+      "email": "ida@cis.upenn.edu",
+      "major": "CIS"
+    },
+    {
+      "id": 2,
+      "name": "George Starling",
+      "email": "gstarling@upenn.edu",
+      "major": "History"
+    },
+    {
+      "id": 3,
+      "name": "Rob Foster",
+      "email": "rob@upenn.edu",
+      "major": "Sociology"
+    },
+    {
+      "id": 4,
+      "name": "Richarg Wright",
+      "email": "rw@upenn.edu",
+      "major": "Sociology"
+    },
+    {
+      "id": 4,
+      "name": "Maya A",
+      "email": "maya@upenn.edu",
+      "major": "Math"
+    },
+    {
+      "name": "eric",
+      "major": "eric",
+      "email": "eric",
+      "id": 5
+    },
+    {
+      "name": "carla",
+      "major": "Music",
+      "email": "carla@penn.edu",
+      "id": 6
+    },
+    {
+      "name": "tt",
+      "major": "tt",
+      "email": "tt",
+      "id": 7
+    }
+  ]
+}
