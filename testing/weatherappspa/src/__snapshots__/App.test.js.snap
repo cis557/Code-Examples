@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather app matches snapshot 1`] = `
+<div>
+  <header>
+    <input
+      id="inpt"
+      onChange={[Function]}
+      type="text"
+    />
+    <button
+      id="btn"
+      onClick={[Function]}
+      type="button"
+    >
+      OK
+    </button>
+  </header>
+  <section>
+    <h1>
+      Cities
+    </h1>
+    <nav>
+      <ul>
+        <li>
+          <a
+            href="/Philadelphia"
+            onClick={[Function]}
+          >
+            Philadelphia
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Boston"
+            onClick={[Function]}
+          >
+            Boston
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Mumbai"
+            onClick={[Function]}
+          >
+            Mumbai
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Dakar"
+            onClick={[Function]}
+          >
+            Dakar
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Shanghai"
+            onClick={[Function]}
+          >
+            Shanghai
+          </a>
+        </li>
+        <li>
+          <a
+            href="/London"
+            onClick={[Function]}
+          >
+            London
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Montreal"
+            onClick={[Function]}
+          >
+            Montreal
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <article />
+  </section>
+</div>
+`;
