@@ -1,0 +1,28 @@
+{
+  "name": "mongodb_code",
+  "version": "1.0.0",
+  "description": "first nodejs and mongodb app",
+  "main": "server.js",
+  "scripts": {
+    "lint": " eslint --ignore-pattern *.test.js --ignore-pattern *.test.jsx ",
+    "start": "node server.js",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "express"
+  ],
+  "author": "Eric",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0"
+  }
+}
