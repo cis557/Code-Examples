@@ -84,6 +84,7 @@ function UsersComponent() {
 function MessagesComponent(props) {
   let receiver = useRef('');
   let content = useRef('');
+  let counterKey = 0;
 
   const sendMsg = async () => {  
     await sendMessage(props.username, receiver.current, content.current);
@@ -93,7 +94,7 @@ function MessagesComponent(props) {
     <div>
       <div>
         <h2>Previous messages</h2>
-        <div>{props.messages.map(msg => <p>{msg}</p>)}</div>
+        <div>{props.messages.map(msg => <p key={counterKey++}>{msg}</p>)}</div>
         <hr></hr>
       </div>
       <div>
