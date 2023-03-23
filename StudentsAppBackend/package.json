@@ -1,0 +1,21 @@
+{
+  "name": "studentsbackend",
+  "version": "1.0.0",
+  "description": "the backend of the students app. Implemented with mongodb and express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node DbOperations.js",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "backend",
+    "mongodb",
+    "express",
+    "nodejs"
+  ],
+  "author": "cis3500",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^5.1.0"
+  }
+}
