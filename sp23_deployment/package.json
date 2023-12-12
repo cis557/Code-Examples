@@ -1,0 +1,29 @@
+{
+  "name": "studentsbackend",
+  "version": "1.0.0",
+  "description": "the backend of the students app. Implemented with mongodb and express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest --coverage --runInBand",
+    "build": "npm install && cd StudentsAppFrontend && npm install && npm run build"
+
+  },
+  "keywords": [
+    "backend",
+    "mongodb",
+    "express",
+    "nodejs"
+  ],
+  "author": "cis3500",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.1.0",
+    "path": "^0.12.7",
+    "supertest": "^6.3.3"
+  }
+}
